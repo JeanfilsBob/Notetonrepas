@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('../img/fond.png') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            color: white;
+        }
+
+        .page-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .burger-menu {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: #1a237e;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .burger-menu span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 5px auto;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #1a237e;
+            height: 100vh;
+            padding: 20px;
+            position: fixed;
+            left: -290px;
+            transition: 0.3s;
+            z-index: 999;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .profile-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .profile-icon {
+            width: 60px;
+            height: 60px;
+            background: #ff9800;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .profile-name {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .sidebar-button {
+            background: #283593;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            margin: 5px 0;
+        }
+
+        .sidebar-button:hover {
+            background: #3949ab;
+        }
+
+        .sidebar-button a {
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            margin-left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            background: #1a237e;
+            border-radius: 20px;
+            padding: 20px;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .points-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .rating-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .rating-progress {
+            width: 60%;
+            height: 100%;
+            background: #42a5f5;
+            border-radius: 3px;
+            transition: 0.3s;
+        }
+
+        .rating-stars {
+            display: flex;
+            justify-content: space-between;
+            margin: -12px 0 20px;
+        }
+
+        .star {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .reward-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .reward-item.active {
+            background: #283593;
+        }
+
+        .reward-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                margin: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <button class="burger-menu" id="toggleSidebar">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="sidebar">
+            <div class="profile-section">
+                <div class="profile-icon">👤</div>
+                <div class="profile-name">Jean Fils</div>
+                <button style="width: 45%; padding: 8px; border-radius: 5px; border: none; margin: 0 2%; background: #4CAF50; color: white;">Noter</button>
+                <button style="width: 45%; padding: 8px; border-radius: 5px; border: none; margin: 0 2%; background: #2196F3; color: white;">Fidéliser</button>
+            </div>
+
+            <button class="sidebar-button" id="classement-btn">🏆 Classement des plats</button>
+            <button class="sidebar-button" id="menu-btn">📋 Menu</button>
+            <button class="sidebar-button" id="reservation-btn">📅 Réservation</button>
+            <button class="sidebar-button" id="historique-btn">📖 Historique</button>
+            <button class="sidebar-button" id="contact-btn">✉️ Nous contacter</button>
+        </div>
+
+        <div class="main-content">
+            <div class="card">
+                <div class="header">
+                    <h1>Fidélité</h1>
+                    <div class="points-value"> 50 points</div>
+                    <p>1 Vote = 2 Pts</p>
+                </div>
+
+                <div class="rating-bar">
+                    <div class="rating-progress"></div>
+                    <div class="rating-stars">
+                        <svg class="star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                        <svg class="star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                        <svg class="star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                        <svg class="star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                        <svg class="star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                    </div>
+                </div>
+
+                <p style="color: #90caf9; text-align: center; margin: 20px 0;">Premier palier dans 50 points</p>
+
+                <h2 style="text-align: center; margin: 20px 0;">Récompenses palier</h2>
+                
+                <div class="reward-item active">
+                    <div class="reward-info">
+                        <div>Palier 1 - 100 pts</div>
+                        <div style="color: #90caf9;">Cookie offert</div>
+                    </div>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <rect x="7" y="7" width="3" height="3"></rect>
+                        <rect x="14" y="7" width="3" height="3"></rect>
+                        <rect x="7" y="14" width="3" height="3"></rect>
+                    </svg>
+                </div>
+
+                <div class="reward-item">
+                    <div class="reward-info">
+                        <div>Palier 2 - 200 pts</div>
+                        <div style="color: #90caf9;">À définir</div>
+                    </div>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <rect x="7" y="7" width="3" height="3"></rect>
+                        <rect x="14" y="7" width="3" height="3"></rect>
+                        <rect x="7" y="14" width="3" height="3"></rect>
+                    </svg>
+                </div>
+
+                <div class="reward-item">
+                    <div class="reward-info">
+                        <div>Palier 3 - 300 pts</div>
+                        <div style="color: #90caf9;">À définir</div>
+                    </div>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <rect x="7" y="7" width="3" height="3"></rect>
+                        <rect x="14" y="7" width="3" height="3"></rect>
+                        <rect x="7" y="14" width="3" height="3"></rect>
+                    </svg>
+                </div>
+
+                <div class="reward-item">
+                    <div class="reward-info">
+                        <div>Palier 4 - 500 pts</div>
+                        <div style="color: #90caf9;">À définir</div>
+                    </div>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <rect x="7" y="7" width="3" height="3"></rect>
+                        <rect x="14" y="7" width="3" height="3"></rect>
+                        <rect x="7" y="14" width="3" height="3"></rect>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const toggleButton = document.getElementById('toggleSidebar');
+        const sidebar = document.querySelector('.sidebar');
+        const stars = document.querySelectorAll('.star');
+        const progressBar = document.querySelector('.rating-progress');
+        let currentRating = 0;
+
+        toggleButton.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+
+        stars.forEach((star, index) => {
+            star.addEventListener('mouseover', () => {
+                stars.forEach((s, i) => {
+                    if (i <= index) {
+                        s.style.fill = '#ffd700';
+                        s.style.color = '#ffd700';
+                    } else {
+                        s.style.fill = 'none';
+                        s.style.color = 'rgba(255, 255, 255, 0.4)';
+                    }
+                });
+            });
+
+            star.addEventListener('mouseout', () => {
+                stars.forEach((s, i) => {
+                    if (i < currentRating) {
+                        s.style.fill = '#ffd700';
+                        s.style.color = '#ffd700';
+                    } else {
+                        s.style.fill = 'none';
+                        s.style.color = 'rgba(255, 255, 255, 0.4)';
+                    }
+                });
+            });
+
+            star.addEventListener('click', () => {
+                currentRating = index + 1;
+                progressBar.style.width = `${(currentRating / 5) * 100}%`;
+                stars.forEach((s, i) => {
+                    if (i < currentRating) {
+                        s.style.fill = '#ffd700';
+                        s.style.color = '#ffd700';
+                    } else {
+                        s.style.fill = 'none';
+                        s.style.color = 'rgba(255, 255, 255, 0.4)';
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script src="global/node.js"></script>
+
+</body>
+</html>

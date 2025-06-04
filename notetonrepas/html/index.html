@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Accueil</title>
+    <link rel="stylesheet" href="global/style.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Menu burger -->
+        <button class="burger-menu" id="toggleSidebar" aria-label="Menu">
+            <img src="./img/burger tout bo.png" alt="Menu">
+        </button>
+
+        <!-- Barre latérale -->
+        <div class="sidebar">
+            <div class="profile-section">
+                <div class="profile-icon">👤</div>
+                <div class="profile-name">Antonin Doe</div>
+                <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                    <button id="profil-btn" style="width: 48%; padding: 8px; border-radius: 8px; border: none; background: #4CAF50; color: white;">Profil</button>
+                    <button id="fidéliter-btn" style="width: 48%; padding: 8px; border-radius: 8px; border: none; background: #2196F3; color: white;">Fidélité</button>
+                </div>
+            </div>
+
+            <button class="sidebar-button" id="classement-btn">🏆 Classement des plats</button>
+            <button class="sidebar-button" id="menu-btn">📋 Menu</button>
+            <button class="sidebar-button" id="reservation-btn">📅 Réservation</button>
+            <button class="sidebar-button" id="historique-btn">📖 Historique</button>
+            <button class="sidebar-button" id="contact-btn">✉️ Nous contacter</button>
+        </div>
+
+        <!-- Contenu principal -->
+        <div class="main-content">
+            <button class="home-btn">🏠 Accueil</button>
+
+            <div class="container">
+                <!-- Bloc menu -->
+                <div class="menu">
+                    <!-- Entrée -->
+                    <div class="category" data-type="entree">
+                        <span class="favorite" title="Ajouter aux favoris">&#9825;</span>
+                        <div class="category-title">Entrée</div>
+                        <div class="selection-wrapper">
+                            <select class="dropdown">
+                                <option value="">Sélectionnez une entrée</option>
+                                <option>Salade</option>
+                                <option>Soupe</option>
+                                <option>Bruschetta</option>
+                            </select>
+                            <span class="delete-selection" title="Supprimer">&#10006;</span>
+                        </div>
+                    </div>
+
+                    <!-- Plat -->
+                    <div class="category" data-type="plat">
+                        <span class="favorite" title="Ajouter aux favoris">&#9825;</span>
+                        <div class="category-title">Plat</div>
+                        <div class="selection-wrapper">
+                            <select class="dropdown">
+                                <option value="">Sélectionnez un plat</option>
+                                <option>Pâtes</option>
+                                <option>Steak</option>
+                                <option>Poisson</option>
+                            </select>
+                            <span class="delete-selection" title="Supprimer">&#10006;</span>
+                        </div>
+                    </div>
+
+                    <!-- Dessert -->
+                    <div class="category" data-type="dessert">
+                        <span class="favorite" title="Ajouter aux favoris">&#9825;</span>
+                        <div class="category-title">Dessert</div>
+                        <div class="selection-wrapper">
+                            <select class="dropdown">
+                                <option value="">Sélectionnez un dessert</option>
+                                <option>Gâteau</option>
+                                <option>Glace</option>
+                                <option>Fruit</option>
+                            </select>
+                            <span class="delete-selection" title="Supprimer">&#10006;</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Étoiles de note -->
+                <div class="rating" aria-label="Noter ce menu">
+                    <span class="star" data-value="1" title="1 étoile">★</span>
+                    <span class="star" data-value="2" title="2 étoiles">★</span>
+                    <span class="star" data-value="3" title="3 étoiles">★</span>
+                    <span class="star" data-value="4" title="4 étoiles">★</span>
+                    <span class="star" data-value="5" title="5 étoiles">★</span>
+                </div>
+
+                <!-- Commentaire -->
+                <textarea class="comment" placeholder="Ajoutez un commentaire..."></textarea>
+
+                <!-- Bouton validation -->
+                <button class="validate">✅ Valider</button>
+                <div class="message">Merci pour votre avis !</div>
+            </div>
+        </div>
+    </div>
+
+    <script> src="global/node.js"</script>
+
+</body>
+</html>

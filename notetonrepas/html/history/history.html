@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historique</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('../img/fond.png') no-repeat center center fixed;
+            background-size: cover;
+            background-attachment: fixed;
+            color: black;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .page-wrapper {
+            display: flex;
+            flex: 1;
+            position: relative;
+            min-height: 100vh;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        .burger-menu {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: #1a237e;
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .burger-menu span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: white;
+            transition: 0.3s;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #1a237e;
+            height: 100vh;
+            padding: 20px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            position: fixed;
+            left: -290px;
+            transition: left 0.3s ease;
+            z-index: 999;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .profile-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .profile-icon {
+            width: 60px;
+            height: 60px;
+            background: #ff9800;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .profile-name {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .sidebar-button {
+            background: #283593;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            transition: background 0.3s;
+            width: 100%;
+        }
+
+        .sidebar-button:hover {
+            background: #3949ab;
+        }
+
+        .sidebar-button a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            margin-left: 0;
+            transition: margin-left 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .main-content.shifted {
+            margin-left: 250px;
+        }
+
+        .home-btn {
+            background: #333;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .home-btn:hover {
+            background: #444;
+        }
+
+        .container {
+            width: 375px;
+            background: url('Historique.png') no-repeat center center;
+            background-size: cover;
+            padding: 15px;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .header {
+            background: black;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .sort-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: navy;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .sort-container button {
+            background: darkblue;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .card {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+            position: relative;
+            text-align: center;
+        }
+
+        .card img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .heart {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .note {
+            background: lightgray;
+            padding: 5px;
+            border-radius: 10px;
+            margin-top: 5px;
+            font-size: 12px;
+        }
+
+        
+    </style>
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <!-- Burger menu -->
+        <button class="burger-menu" id="toggleSidebar">
+            <img src="img/burger tout bo.png" alt="Burger Menu">
+        </button>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="profile-section">
+                <div class="profile-icon">👤</div>
+                <div class="profile-name">Le Proutlord</div>
+                <button class="bouton-v1"><a href="#">Profil</a></button>
+                <button class="bouton-v2"><a href="#">Fidéliser</a></button>
+           </div>
+
+            <button class="sidebar-button" id="classement-btn">🏆 Classement des plats</button>
+            <button class="sidebar-button" id="menu-btn">📋 Menu</button>
+            <button class="sidebar-button" id="reservation-btn">📅 Réservation</button>
+            <button class="sidebar-button" id="historique-btn">📖 Historique</button>
+            <button class="sidebar-button" id="contact-btn">✉️ Nous contacter</button>
+        </div>
+
+        <!-- Main content -->
+        <div class="main-content">
+            <a href="index.html" class="home-btn">Titre :3</a>
+
+            <div class="container">
+                <div class="header">Historique</div>
+                <div class="sort-container">
+                    <span>Trier par :</span>
+                    <button id="sortButton">Rareté</button>
+                </div>
+
+                <div class="grid" id="historyGrid">
+                    <!-- Plats vont être insérés ici dynamiquement -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Données des plats
+        const plats = [
+            { id: 1, name: "Lasagnes", image: "img/lasagnes.jpg", rarete: "Rare", note: "4.5", fav: false },
+            { id: 2, name: "Pizza Margherita", image: "img/pizza.jpg", rarete: "Commun", note: "4.0", fav: false },
+            { id: 3, name: "Sushi", image: "img/sushi.jpg", rarete: "Moyenne", note: "4.8", fav: false },
+            { id: 4, name: "Burger", image: "img/burger.jpg", rarete: "Commun", note: "4.3", fav: false },
+            { id: 5, name: "Ramen", image: "img/ramen.jpg", rarete: "Rare", note: "4.7", fav: false },
+        ];
+
+        // Affichage des plats dans la grille
+        function displayPlats(platsList) {
+            const grid = document.getElementById("historyGrid");
+            grid.innerHTML = ''; // Effacer la grille avant d'ajouter les nouveaux plats
+
+            platsList.forEach(plat => {
+                const platElement = document.createElement('div');
+                platElement.className = 'card';
+
+                platElement.innerHTML = `
+                    <span class="heart" onclick="toggleHeart(${plat.id})">${plat.fav ? '❤️' : '♡'}</span>
+                    <img src="${plat.image}" alt="${plat.name}">
+                    <div class="note">${plat.note}</div>
+                `;
+                grid.appendChild(platElement);
+            });
+        }
+
+        // Fonction pour gérer le toggle du cœur (favoris)
+        function toggleHeart(platId) {
+            const plat = plats.find(p => p.id === platId);
+            plat.fav = !plat.fav; // Inverse l'état du favori
+            displayPlats(plats); // Réaffiche les plats avec l'état mis à jour
+        }
+
+        // Trier les plats par rareté ou nom
+        document.getElementById('sortButton').addEventListener('click', function() {
+            const isRaritySorted = this.textContent === 'Rareté';
+            this.textContent = isRaritySorted ? 'Nom' : 'Rareté';
+
+            // Trier par rareté ou nom
+            plats.sort((a, b) => {
+                if (isRaritySorted) {
+                    return a.rarete.localeCompare(b.rarete); // Tri par rareté
+                } else {
+                    return a.name.localeCompare(b.name); // Tri par nom
+                }
+            });
+
+            displayPlats(plats); // Réafficher les plats triés
+        });
+
+        // Initialisation : Afficher les plats dès le chargement de la page
+        displayPlats(plats);
+        
+        const toggleButton = document.getElementById('toggleSidebar');
+        const sidebar = document.querySelector('.sidebar');
+        const mainContent = document.querySelector('.main-content');
+
+        toggleButton.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            mainContent.classList.toggle('shifted');
+        });
+
+    </script>
+
+        <script src="global/node.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - Restaurant</title>
+    <style>
+      :root {
+        --navy-blue: #1a237e;
+        --light-blue: #534bae;
+        --white: #ffffff;
+        --text-color: #000000;
+        --bg-color: #ffffff;
+        --sidebar-bg: #ffffff;
+        --button-bg: var(--navy-blue);
+        --button-hover: var(--light-blue);
+        font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+      }
+
+      body.dark-mode {
+        --text-color: #ffffff;
+        --bg-color: #121212;
+        --sidebar-bg: #1e1e1e;
+        --button-bg: #534bae;
+        --button-hover: #1a237e;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 240px;
+        height: 100vh;
+        background-color: var(--sidebar-bg);
+        padding: 1.5rem;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s ease;
+      }
+
+      .sidebar.closed {
+        transform: translateX(-100%);
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        font-size: 1.25rem;
+        cursor: pointer;
+        color: var(--text-color);
+      }
+
+      .profile {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding: 0.75rem;
+        background-color: var(--button-bg);
+        border-radius: 12px;
+        color: var(--white);
+      }
+
+      .profile-icon {
+        font-size: 1.75rem;
+        margin-right: 0.75rem;
+        background-color: var(--white);
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .profile-info .name {
+        font-weight: bold;
+        margin-bottom: 0.25rem;
+        font-size: 0.95rem;
+      }
+
+      .profile-info .role {
+        font-size: 0.8rem;
+        background-color: var(--white);
+        color: var(--navy-blue);
+        padding: 0.2rem 0.6rem;
+        border-radius: 12px;
+        display: inline-block;
+      }
+
+      .menu {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .menu-item {
+        background-color: var(--button-bg);
+        color: var(--white);
+        border: none;
+        padding: 0.75rem;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: background-color 0.3s;
+        text-align: left;
+      }
+
+      .menu-item:hover {
+        background-color: var(--button-hover);
+      }
+
+      .bottom-buttons {
+        margin-top: auto;
+      }
+
+      .utensils-icon {
+        text-align: center;
+        font-size: 2rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 0.75rem;
+      }
+
+      .action-btn {
+        flex: 1;
+        background-color: var(--button-bg);
+        color: var(--white);
+        border: none;
+        padding: 0.6rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        transition: background-color 0.3s;
+      }
+
+      .action-btn:hover {
+        background-color: var(--button-hover);
+      }
+
+      @media (max-width: 768px) {
+        .sidebar {
+          width: 100%;
+          padding: 1rem;
+        }
+
+        .menu-item {
+          padding: 0.6rem;
+        }
+
+        .action-buttons {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body class="light-mode">
+    <div class="sidebar" id="sidebar">
+      <div class="close-btn" id="closeBtn">✕</div>
+      
+      <div class="profile">
+        <div class="profile-icon">👤</div>
+        <div class="profile-info">
+          <div class="name">Nom prénom</div>
+          <div class="role">Administrateur</div>
+        </div>
+      </div>
+
+      <nav class="menu">
+        <button class="menu-item">Signalement des bugs</button>
+        <button class="menu-item">Gestion du menu</button>
+        <button class="menu-item">Gestion des droits</button>
+        <button class="menu-item">Modification des points</button>
+      </nav>
+
+      <div class="bottom-buttons">
+        <div class="action-buttons">
+          <button class="action-btn">Déconnexion</button>
+          <button class="action-btn" id="darkModeToggle">Changer de mode</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Dark mode toggle
+      const darkModeToggle = document.getElementById('darkModeToggle');
+      const body = document.body;
+
+      // Check for saved dark mode preference
+      if (localStorage.getItem('darkMode') === 'true') {
+        body.classList.add('dark-mode');
+      }
+
+      darkModeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+      });
+
+      // Sidebar toggle
+      const sidebar = document.getElementById('sidebar');
+      const closeBtn = document.getElementById('closeBtn');
+
+      closeBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('closed');
+      });
+
+      // Close sidebar when clicking outside on mobile
+      document.addEventListener('click', (e) => {
+        const isMobile = window.innerWidth <= 768;
+        const clickedOutsideSidebar = !sidebar.contains(e.target);
+        
+        if (isMobile && clickedOutsideSidebar && !sidebar.classList.contains('closed')) {
+          sidebar.classList.add('closed');
+        }
+      });
+    </script>
+  </body>
+</html>
